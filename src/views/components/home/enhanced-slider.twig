@@ -1,33 +1,82 @@
-{#
-| Variable                       | Type     | Description                                                                  |
-|--------------------------------|----------|------------------------------------------------------------------------------|
-| component                      | object   | Contains merchant settings for fields from twilight.json `component` section |
-| component.slides[].image       | string   | Image url                                                                    |
-| component.slides[].title       | ?string  |                                                                              |
-| component.slides[].description | ?string  |                                                                              |
-| component.slides               | object[] | list of slides                                                               |
-| position                       | int      | Sorting number start from zero                                               |
-#}
-<section class="s-block s-block--hero-slider s-block--full-bg wide-placeholder"> 
-    <salla-slider 
-      id="main-slider-{{ position }}"
-      auto-play
-      static-when-single
-      slider-config='{"lazy":"false"}'
-      {{ component.slides|length > 1 ? '' : 'show-controls="false"' }}
-      type="fullwidth">
-        <div slot="items">
-            {% for slide in component.slides %}
-                <div class="swiper-slide w-full min-h-[300px] lg:min-h-[528px] bg-dark relative">
-					<div style="background-image: url({{ slide.image }});" class="{{ slide.without_overlay ? '' : 'overlay-bg' }} bg-cover bg-center absolute inset-0"></div>
-                    <div class="flex-center container pb-16 sm:pb-0 home-slider__content relative h-full">
-                        <div class=" w-4/6 text-center md:w-7/12 lg:w-5/12 text-white">
-                            <h2 data-swiper-parallax="-500" class="lg:text-title-size font-bold leading-tight mb-4">{{ slide.title }}</h2>
-                            <p data-swiper-parallax="-300" class="line-clamp-2 description">{{ slide.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+<section class="rpp-hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-progress"><div class="hero-progress-bar" id="heroProgress"></div></div>
+
+    {% for slide in component.slides %}
+    <div class="hero-slide {% if loop.first %}active{% endif %}">
+      <div class="hero-slide-bg" style="background-image:url('{{ slide.image }}')"></div>
+      <div class="hero-slide-content">
+        <div class="container" style="width:100%">
+          <div class="hero-content-inner">
+            <div class="slide-label"><span class="slide-pulse"></span><span>{{ app.locale == 'ar' ? store.name : store.name }}</span></div>
+            {% if slide.title %}
+            <h1 class="hero-title">{{ slide.title }}</h1>
+            {% endif %}
+            {% if slide.description %}
+            <p class="hero-sub">{{ slide.description }}</p>
+            {% endif %}
+            <div class="hero-btns">
+              <a href="{{ store.urls.products }}" class="btn btn-primary">تسوق الآن ←</a>
+              <a href="{{ store.urls.offers }}" class="btn btn-white-outline">العروض</a>
+            </div>
+          </div>
         </div>
-    </salla-slider>
-</section> 
+      </div>
+    </div>
+    {% endfor %}
+
+    <button class="hero-arrow hero-prev" id="heroPrev">&#8594;</button>
+    <button class="hero-arrow hero-next" id="heroNext">&#8592;</button>
+
+    <div class="hero-dots" id="heroDots">
+      {% for slide in component.slides %}
+      <button class="hero-dot {% if loop.first %}active{% endif %}"></button>
+      {% endfor %}
+    </div>
+
+    <div class="slide-counter">
+      <span class="slide-current" id="slideCurrentNum">01</span>
+      <span>/</span>
+      <span>{{ component.slides|length|number_format(2, '0') }}</span>
+    </div>
+  </div>
+</section>
+
+<!-- Features Bar -->
+<div class="rpp-features-bar">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feat-item">
+        <div class="feat-icon">🚚</div>
+        <div class="feat-text"><strong>{{ settings.feat1_title ?? 'شحن مجاني' }}</strong><span>{{ settings.feat1_desc ?? 'على الطلبات فوق 150 ريال' }}</span></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🔄</div>
+        <div class="feat-text"><strong>{{ settings.feat2_title ?? 'إرجاع مجاني' }}</strong><span>{{ settings.feat2_desc ?? 'خلال 30 يوماً دون شرط' }}</span></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🔒</div>
+        <div class="feat-text"><strong>{{ settings.feat3_title ?? 'دفع آمن 100%' }}</strong><span>{{ settings.feat3_desc ?? 'تشفير SSL عالي الأمان' }}</span></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🎧</div>
+        <div class="feat-text"><strong>{{ settings.feat4_title ?? 'دعم 24/7' }}</strong><span>{{ settings.feat4_desc ?? 'فريق خدمة دائم الاستعداد' }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Offer Marquee -->
+<div class="rpp-offer-bar">
+  <div class="offer-track">
+    <div class="offer-item"><span class="offer-dot"></span><span>🔥 عروض اليوم — خصم حتى 70%</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>🚚 شحن مجاني على جميع الطلبات فوق 150 ريال</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>⭐ تسوق وإكسب نقاط ولاء</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>💳 3 أقساط بدون فوائد مع تمارا</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>🆕 وصل حديثاً — أحدث التشكيلات</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>🔥 عروض اليوم — خصم حتى 70%</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>🚚 شحن مجاني على جميع الطلبات فوق 150 ريال</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>⭐ تسوق وإكسب نقاط ولاء</span></div>
+    <div class="offer-item"><span class="offer-dot"></span><span>💳 3 أقساط بدون فوائد مع تمارا</span></div>
+  </div>
+</div>
