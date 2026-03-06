@@ -1,0 +1,31 @@
+{% if component.items|length %}
+<section class="rpp-testimonials">
+  <div class="container">
+    <div class="testi-inner">
+      <div class="testi-head reveal">
+        <div class="rpp-badge" style="justify-content:center;color:rgba(230,57,70,.9)">آراء العملاء</div>
+        <h2 class="rpp-title" style="color:white;text-align:center">ماذا يقول <span class="hl">عملاؤنا؟</span></h2>
+      </div>
+      <div class="testi-grid">
+        {% for review in component.items %}
+        <div class="testi-card reveal" style="transition-delay:{{ loop.index0 * 0.1 }}s">
+          <div class="testi-stars">{% for i in 1..review.stars|default(5) %}★{% endfor %}</div>
+          <p class="testi-text">{{ review.text }}</p>
+          <div class="testi-author">
+            {% if review.avatar %}
+              <img src="{{ review.avatar }}" alt="{{ review.name }}" class="testi-avatar">
+            {% else %}
+              <div class="testi-avatar">{{ review.name|slice(0,1) }}</div>
+            {% endif %}
+            <div>
+              <span class="testi-name">{{ review.name }}</span>
+              <span class="testi-meta">✓ مشتري موثق</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

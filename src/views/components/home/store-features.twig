@@ -1,0 +1,21 @@
+{#
+| Variable      | Type   |
+|---------------|--------|
+| items[].icon  | string |
+| items[].title | string |
+| items[].text  | string |
+#}
+{% if items|length %}
+<section class="rpp-feats" style="padding:24px 0">
+  <div class="container">
+    <div class="feats-grid" style="grid-template-columns:repeat({{ [items|length,4]|min }},1fr)">
+      {% for item in items %}
+      <div class="feat">
+        <div class="feat-ico"><i class="{{ item.icon }}"></i></div>
+        <div><strong>{{ item.title }}</strong><span>{{ item.text }}</span></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

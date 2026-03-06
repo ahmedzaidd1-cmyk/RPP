@@ -1,0 +1,19 @@
+{#
+| items[].url       | string |
+| items[].image.url | string |
+#}
+{% if items|length %}
+<section class="s-block" style="padding:0">
+  <salla-slider type="carousel" class="home-slider photos-slider" centered auto-play pagination id="photos-{{ position }}-slider">
+    <div slot="items">
+      {% for item in items %}
+      <div class="s-slider__item">
+        <a href="{{ item.url }}" style="display:block">
+          <img src="{{ item.image.url }}" alt="{{ item.image.alt ?? '' }}" style="width:100%;height:420px;object-fit:cover">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </salla-slider>
+</section>
+{% endif %}

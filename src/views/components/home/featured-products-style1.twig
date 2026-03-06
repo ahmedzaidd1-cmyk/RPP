@@ -1,0 +1,147 @@
+<<<<<<< HEAD
+{% set component_id='rpp-fp1-' ~ position %}
+
+<section class="rpp-products s-block s-block-tabs s-block--special-products container" id="{{ component_id }}" style="padding:70px 0">
+
+=======
+{% set component_id = 'rpp-fp1-' ~ position %}
+{% set default_title = (items|length and items[0].title) ? items[0].title : trans('blocks.home.featured_products') %}
+
+{% if items|length %}
+<section class="rpp-products s-block s-block-tabs s-block--special-products container" id="{{ component_id }}" style="padding:70px 0">
+>>>>>>> 4d1d9c4 (update featured products component)
+  <div class="sec-header reveal">
+    <div>
+      <div class="rpp-badge">منتجاتنا</div>
+      <h2 class="rpp-title">
+<<<<<<< HEAD
+        {{ main_product.title ?? trans('blocks.home.featured_products') }}
+=======
+        {{ default_title }}
+>>>>>>> 4d1d9c4 (update featured products component)
+        <span class="hl">المميزة</span>
+      </h2>
+    </div>
+
+    {% if items|length > 1 %}
+<<<<<<< HEAD
+    <div class="tabs" style="display:flex;gap:4px;background:#EEF0F5;border-radius:8px;padding:4px">
+=======
+    <div class="tabs" style="display:flex;gap:4px;background:#EEF0F5;border-radius:8px;padding:4px;flex-wrap:wrap">
+>>>>>>> 4d1d9c4 (update featured products component)
+      {% for section in items %}
+      <button
+        type="button"
+        data-target="{{ component_id }}-{{ section.id }}"
+<<<<<<< HEAD
+        data-component-id="{{ component_id }}"
+=======
+>>>>>>> 4d1d9c4 (update featured products component)
+        class="tab-trigger {{ loop.first ? 'is-active' : '' }}"
+        style="padding:7px 18px;border-radius:6px;font-size:0.85rem;font-weight:700;font-family:Tajawal,sans-serif"
+      >
+        {{ section.title }}
+      </button>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="tabs-wrapper reveal" style="transition-delay:.1s">
+    {% for section in items %}
+    <div
+      id="{{ component_id }}-{{ section.id }}"
+      class="tabs__item {{ loop.first ? 'is-active' : '' }}"
+<<<<<<< HEAD
+      style="display:{{ loop.first ? 'grid' : 'none' }};grid-template-columns:repeat(4,1fr);gap:18px"
+    >
+      {% for product in section.products|slice(0,8) %}
+        <salla-product-card product-id="{{ product.id }}"></salla-product-card>
+=======
+      style="display:{{ loop.first ? 'grid' : 'none' }};grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px"
+    >
+      {% for product in section.products|slice(0,8) %}
+      <salla-product-card product-id="{{ product.id }}"></salla-product-card>
+>>>>>>> 4d1d9c4 (update featured products component)
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+<<<<<<< HEAD
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const triggers = document.querySelectorAll("#{{ component_id }} .tab-trigger");
+
+  triggers.forEach(btn => {
+    btn.addEventListener("click", function(){
+
+      const wrapper = document.querySelector("#{{ component_id }}");
+      const target = this.dataset.target;
+
+      // remove active class
+      wrapper.querySelectorAll(".tab-trigger").forEach(t => t.classList.remove("is-active"));
+      this.classList.add("is-active");
+
+      // hide all tabs
+      wrapper.querySelectorAll(".tabs__item").forEach(tab => {
+        tab.style.display = "none";
+      });
+
+      // show selected
+      const activeTab = document.getElementById(target);
+      if(activeTab){
+        activeTab.style.display = "grid";
+      }
+
+    });
+  });
+
+});
+</script>
+=======
+</section>
+
+<script>
+(function () {
+  const initTabs = () => {
+    const wrapper = document.getElementById('{{ component_id }}');
+    if (!wrapper || wrapper.dataset.tabsReady === 'true') return;
+
+    wrapper.dataset.tabsReady = 'true';
+
+    wrapper.querySelectorAll('.tab-trigger').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        const target = this.getAttribute('data-target');
+
+        wrapper.querySelectorAll('.tab-trigger').forEach((trigger) => {
+          trigger.classList.remove('is-active');
+        });
+        this.classList.add('is-active');
+
+        wrapper.querySelectorAll('.tabs__item').forEach((tab) => {
+          tab.style.display = 'none';
+          tab.classList.remove('is-active');
+        });
+
+        const activeTab = document.getElementById(target);
+        if (activeTab) {
+          activeTab.style.display = 'grid';
+          activeTab.classList.add('is-active');
+        }
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+{% endif %}
+>>>>>>> 4d1d9c4 (update featured products component)

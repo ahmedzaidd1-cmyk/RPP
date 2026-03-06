@@ -1,0 +1,83 @@
+{#
+| Variable          | Type      | Description           |
+|-------------------|-----------|-----------------------|
+| items             | array     |                       |
+| items[].title     | string    |                       |
+| items[].products  | Product[] |                       |
+| items[].id        | string    |                       |
+| is_slider         | Bool      |                       |
+| position          | int       |                       |
+#}
+{% set component_id = 'rpp-fp2-' ~ position %}
+{% set default_title = (items|length and items[0].title) ? items[0].title : 'وصل حديثاً' %}
+
+{% if items|length %}
+<section class="s-block s-block-tabs s-block--tabs-produtcs container {{ is_slider ? 'as-slider' : 'as-grid' }}" id="{{ component_id }}" style="padding:70px 0;background:#F8F8FB">
+  <div class="sec-header reveal">
+    <div>
+      <div class="rpp-badge">اكتشف</div>
+      <h2 class="rpp-title">{{ default_title }} <span class="hl">إلينا</span></h2>
+    </div>
+    {% if items|length > 1 %}
+    <div class="tabs" style="display:flex;gap:4px;background:#EEF0F5;border-radius:8px;padding:4px;flex-wrap:wrap">
+      {% for section in items %}
+      <button
+        type="button"
+        data-target="{{ component_id }}-{{ section.id }}"
+        class="tab-trigger {{ loop.first ? 'is-active' : '' }}"
+        style="padding:7px 18px;border-radius:6px;font-size:0.85rem;font-weight:700;font-family:Tajawal,sans-serif"
+      >
+        {{ section.title }}
+      </button>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="tabs-wrapper reveal" style="transition-delay:.1s">
+    {% for section in items %}
+    <div id="{{ component_id }}-{{ section.id }}" class="tabs__item {{ loop.first ? 'is-active' : '' }}" style="display:{% if loop.first %}grid{% else %}none{% endif %};grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">
+      {% for product in section.products|slice(0,8) %}
+      <salla-product-card product-id="{{ product.id }}"></salla-product-card>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+(function () {
+  const initTabs = () => {
+    const wrapper = document.getElementById('{{ component_id }}');
+    if (!wrapper || wrapper.dataset.tabsReady === 'true') return;
+
+    wrapper.dataset.tabsReady = 'true';
+
+    wrapper.querySelectorAll('.tab-trigger').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        const target = this.getAttribute('data-target');
+
+        wrapper.querySelectorAll('.tab-trigger').forEach((trigger) => trigger.classList.remove('is-active'));
+        this.classList.add('is-active');
+
+        wrapper.querySelectorAll('.tabs__item').forEach((tab) => {
+          tab.style.display = 'none';
+          tab.classList.remove('is-active');
+        });
+
+        const activeTab = document.getElementById(target);
+        if (activeTab) {
+          activeTab.style.display = 'grid';
+          activeTab.classList.add('is-active');
+        }
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+{% endif %}

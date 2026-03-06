@@ -1,0 +1,22 @@
+{#
+| Variable        | Type    |
+|-----------------|---------|
+| url             | string  |
+| image.url       | string  |
+| image.alt       | ?string |
+| image.small_url | ?string |
+#}
+{% if image.url %}
+<section class="s-block s-block--fixed-banner" style="padding:0">
+  <div class="container">
+    <a href="{{ url }}" class="banner-card reveal" style="display:block;min-height:200px;border-radius:14px;overflow:hidden">
+      <picture>
+        {% if image.small_url %}
+          <source media="(max-width:767px)" srcset="{{ image.small_url }}">
+        {% endif %}
+        <img src="{{ image.url }}" alt="{{ image.alt ?? 'banner' }}" style="width:100%;height:auto;object-fit:cover;display:block">
+      </picture>
+    </a>
+  </div>
+</section>
+{% endif %}

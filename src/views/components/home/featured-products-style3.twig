@@ -1,0 +1,29 @@
+{#
+| Variable          | Type      |
+|-------------------|-----------|
+| items             | array     |
+| items[].title     | string    |
+| items[].products  | Product[] |
+| items[].id        | string    |
+| position          | int       |
+#}
+{% set component_id = 'rpp-fp3-' ~ position %}
+{% set default_title = (items|length and items[0].title) ? items[0].title : 'منتجات مختارة' %}
+
+{% if items|length %}
+<section class="s-block container" id="{{ component_id }}" style="padding:70px 0">
+  <div class="sec-header reveal">
+    <div>
+      <div class="rpp-badge">مختارة لك</div>
+      <h2 class="rpp-title">{{ default_title }}</h2>
+    </div>
+  </div>
+  <div class="reveal" style="transition-delay:.1s;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">
+    {% for section in items %}
+      {% for product in section.products|slice(0,4) %}
+      <salla-product-card product-id="{{ product.id }}"></salla-product-card>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

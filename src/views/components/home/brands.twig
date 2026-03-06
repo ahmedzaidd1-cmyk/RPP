@@ -1,0 +1,24 @@
+{% if component.brands|length %}
+<section class="rpp-brands">
+  <div class="container">
+    <div style="text-align:center" class="reveal">
+      <div class="rpp-badge" style="justify-content:center">شركاؤنا</div>
+      <h2 class="rpp-title">الماركات التي <span class="hl">نثق بها</span></h2>
+    </div>
+  </div>
+  <div class="brands-wrap">
+    <div class="brands-track">
+      {% for brand in component.brands %}
+      <div class="brand-logo">
+        {% if brand.logo %}<img src="{{ brand.logo }}" alt="{{ brand.name }}">{% else %}{{ brand.name }}{% endif %}
+      </div>
+      {% endfor %}
+      {% for brand in component.brands %}
+      <div class="brand-logo">
+        {% if brand.logo %}<img src="{{ brand.logo }}" alt="{{ brand.name }}">{% else %}{{ brand.name }}{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

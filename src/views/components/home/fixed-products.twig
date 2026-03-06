@@ -1,0 +1,33 @@
+{#
+| Variable              | Type      |
+|-----------------------|-----------|
+| products.source       | string    |
+| products.source_value | ?int[]    |
+| title                 | string    |
+| display_all_url       | ?string   |
+| limit                 | int       |
+| position              | int       |
+#}
+{% set is_vertical = theme.settings.vertical_fixed_products|default(true) %}
+{% if products and products.source %}
+<section class="s-block container" style="padding:70px 0">
+  {% if title %}
+  <div class="sec-header reveal">
+    <div>
+      <div class="rpp-badge">مختارة</div>
+      <h2 class="rpp-title">{{ title }}</h2>
+    </div>
+    {% if display_all_url %}
+    <a href="{{ display_all_url }}" class="btn btn-outline btn-sm">عرض الكل ←</a>
+    {% endif %}
+  </div>
+  {% endif %}
+  <salla-products-list
+    source="{{ products.source }}"
+    limit="{{ limit ?? 8 }}"
+    source-value="{{ products.source_value|default([])|json_encode }}"
+    class="{{ is_vertical ? 'vertical-products' : 'horizontal-products' }}"
+    {{ is_vertical ? '' : 'horizontal-cards' }}
+  ></salla-products-list>
+</section>
+{% endif %}

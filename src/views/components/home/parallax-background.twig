@@ -1,0 +1,21 @@
+{#
+| Variable   | Type   |
+|------------|--------|
+| image      | string |
+| url        | string |
+| title      | string |
+| link_text  | string |
+| is_opacity | Bool   |
+#}
+{% if image.url %}
+<section class="s-block" style="position:relative;overflow:hidden;min-height:320px;display:flex;align-items:center;justify-content:center;text-align:center;">
+  <div style="position:absolute;inset:0;background-image:url('{{ image.url }}');background-size:cover;background-position:center;background-attachment:fixed"></div>
+  {% if is_opacity %}<div style="position:absolute;inset:0;background:rgba(26,26,46,.65)"></div>{% endif %}
+  <div style="position:relative;z-index:2;padding:60px 40px">
+    {% if title %}<h2 style="font-family:'Cairo',sans-serif;font-size:2.2rem;font-weight:900;color:white;margin-bottom:20px">{{ title }}</h2>{% endif %}
+    {% if url and link_text %}
+    <a href="{{ url }}" class="btn btn-primary">{{ link_text }}</a>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
